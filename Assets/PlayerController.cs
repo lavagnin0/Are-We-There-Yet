@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class newScript : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
 	public WheelCollider[] wheelColliders = new WheelCollider[4];
 	public Transform[] tyreMeshes = new Transform[4];
@@ -14,7 +14,6 @@ public class newScript : MonoBehaviour
 	public float horizontalInput;
 	public float forwardInput;
 	public float speed;
-	public float constSpeed;
 
 	void Start()
 	{
@@ -41,23 +40,17 @@ public class newScript : MonoBehaviour
 
     void FixedUpdate()
 	{
-		bool isGrounded = true;
+		float steer = Input.GetAxis("Horizontal");
+		float fixedAngel = steer * 45f;
+
+		float acceleration = Input.GetAxis("Vertical");
+		for (int i = 0; i < 4; i++)
+		{
+			wheelColliders[i].motorTorque = acceleration * maxTorque;
+		}
 		horizontalInput = Input.GetAxis("Horizontal");
 		forwardInput = Input.GetAxis("Vertical");
 
-		for (int i = 0; i < 4; i++)
-		{
-			wheelColliders[i].motorTorque = forwardInput * maxTorque;
-			if (!wheelColliders[i].isGrounded)
-			{
-				isGrounded = false;
-			}
-		}
-		
-		if (Input.GetButton("Jump") && isGrounded)
-		{
-			m_rigidbody.AddForce(Vector3.up * jumpHeight, ForceMode.VelocityChange);
-		}
 		transform.Translate(Vector3.forward * Time.deltaTime * speed * forwardInput);
 		transform.Rotate(Vector3.up, Time.deltaTime * horizontalSpeed * horizontalInput);
 	}
