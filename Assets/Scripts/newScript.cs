@@ -9,12 +9,11 @@ public class newScript : MonoBehaviour
 	public float maxTorque = 50.0f;
 	private Rigidbody m_rigidbody;
 	public Transform centerOfMass;
-	public int jumpHeight = 1;
-	public float horizontalSpeed = 0.15f;
+	public int jumpHeight = 4;
+	public float horizontalSpeed = 50.0f;
 	public float horizontalInput;
 	public float forwardInput;
-	public float speed;
-	public float constSpeed;
+	public float speed = 1.0f;
 
 	void Start()
 	{
